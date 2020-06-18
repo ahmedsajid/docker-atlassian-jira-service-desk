@@ -9,6 +9,7 @@ ENV APP_VERSION   3.16.8
 # directory structure.
 RUN set -x \
     && apk add --no-cache curl xmlstarlet bash ttf-dejavu libc6-compat \
+    && apk --no-cache upgrade \
     && addgroup -S jira \
     && adduser -S -g jira -u 1000 jira \
     && mkdir -p                "${JIRA_HOME}" \
@@ -16,7 +17,7 @@ RUN set -x \
     && chmod -R 700            "${JIRA_HOME}" \
     && chown -R jira:jira      "${JIRA_HOME}" \
     && mkdir -p                "${JIRA_INSTALL}/conf/Catalina" \
-    && curl -Ls                "https://www.atlassian.com/software/jira/downloads/binary/atlassian-servicedesk-3.16.1.tar.gz" | tar -xz --directory "${JIRA_INSTALL}" --strip-components=1 --no-same-owner \
+    && curl -Ls                "https://www.atlassian.com/software/jira/downloads/binary/atlassian-servicedesk-3.16.8.tar.gz" | tar -xz --directory "${JIRA_INSTALL}" --strip-components=1 --no-same-owner \
     && curl -Ls                "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz" | tar -xz --directory "${JIRA_INSTALL}/lib" --strip-components=1 --no-same-owner "mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar" \
     && rm -f                   "${JIRA_INSTALL}/lib/postgresql-9.1-903.jdbc4-atlassian-hosted.jar" \
     && curl -Ls                "https://jdbc.postgresql.org/download/postgresql-9.4.1212.jar" -o "${JIRA_INSTALL}/lib/postgresql-9.4.1212.jar" \
